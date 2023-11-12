@@ -6,6 +6,7 @@ import { Navigation } from 'swiper/modules';
 import { useEffect, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import '@smastrom/react-rating/style.css'
+import { BsChatSquareQuote } from "react-icons/bs";
 const Testimonial = () => {
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
@@ -27,7 +28,10 @@ const Testimonial = () => {
                         <SwiperSlide
                             key={review._id}>
 
-                            <div className="text-center p-10">
+                            <div className="text-center p-10 space-y-5">
+
+                                <BsChatSquareQuote className="text-7xl mx-auto" />
+
                                 <Rating className="mx-auto"
                                     style={{ maxWidth: 180 }}
                                     value={review.rating}
