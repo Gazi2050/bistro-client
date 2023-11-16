@@ -1,8 +1,38 @@
 import { NavLink } from "react-router-dom";
 import { FaGithub, FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-
+import { useEffect, useRef, useState } from "react";
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const captchaRef = useRef(null);
+    const [disable, setDisable] = useState(true);
+
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
+
+    const handleLogIn = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const newUser = { email, password };
+        console.log(newUser)
+    }
+
+    const handleValidateCaptcha = () => {
+        const user_captcha_value = captchaRef.current.value;
+
+        if (validateCaptcha(user_captcha_value) == true) {
+            setDisable(false)
+        }
+
+        else {
+            setDisable(true)
+        }
+    }
+
     return (
         <div className="flex flex-col-reverse lg:flex-row justify-around items-center lg:px-28">
             <div>
@@ -28,35 +58,56 @@ const Login = () => {
             <div className="w-full max-w-sm mx-auto overflow-hidden bg-slate-50 rounded-lg shadow-md dark:bg-gray-800 pt-10 lg:mt-7 md:mt-5">
                 <div className="px-6 py-4">
                     <div className="flex justify-center mx-auto">
-                        <h1 className='text-3xl font-semibold text-amber-500'>Explore</h1>
+                        <h1 className='text-3xl font-semibold text-amber-500'>Bistro</h1>
                     </div>
 
                     <h3 className="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">Welcome Back</h3>
 
                     <p className="mt-1 text-center text-gray-500 dark:text-gray-400">Login or create account</p>
 
-                    <div>
+                    <form onSubmit={handleLogIn}>
                         <div className="w-full mt-4">
-                            <input className="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" type="email" placeholder="Email Address" aria-label="Email Address" />
+                            <input
+                                required
+                                className="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" type="email"
+                                placeholder="Email Address"
+                                name="email" />
                         </div>
 
                         <div className="w-full mt-4">
-                            <input className="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" type="password" placeholder="Password" aria-label="Password" />
-                            <div className="mt-1">
-                                <input className="m-1 form-checkbox h-4 w-4 text-blue-500" type="checkbox" name="" id="" />
-                                <span className="text-blue-500 dark:text-blue-400">Remember me</span>
+                            <input
+                                required
+                                className="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Password"
+                                name="password" />
+                            <div className="m-0.5" onClick={() => setShowPassword(!showPassword)}>
+                                <span className="text-blue-500 dark:text-blue-400 hover:underline cursor-pointer text-sm font-medium">{showPassword ? 'Hide Password' : 'Show Password'}</span>
+                            </div>
+                            <div className="w-full mt-4">
+                                <LoadCanvasTemplate />
+                                <input
+                                    className="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    type="text"
+                                    ref={captchaRef}
+                                    placeholder="type the text above"
+                                    name="captcha" />
+                                <button
+                                    onClick={handleValidateCaptcha}
+                                    className="btn btn-xs btn-outline m-2">Validate</button>
                             </div>
 
                         </div>
 
-                        <div className="flex items-center justify-between mt-4">
-                            <NavLink to={'#'} className="text-sm text-gray-600 dark:text-gray-200 hover:text-blue-500 hover:underline">Forget Password?</NavLink>
-
-                            <button className="btn px-6 py-2 text-sm font-medium  text-white  bg-blue-500 rounded-lg hover:bg-blue-700">
+                        <div className="flex items-center justify-center mt-4">
+                            <button
+                                disabled={disable}
+                                type="submit"
+                                className="btn px-6 py-2 text-sm font-medium  text-white  bg-blue-500 rounded-lg hover:bg-blue-700">
                                 LogIn
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <div className="flex items-center justify-center py-4 text-center bg-gray-200 dark:bg-gray-700">
