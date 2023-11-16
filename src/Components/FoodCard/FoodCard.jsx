@@ -11,7 +11,7 @@ const FoodCard = ({ item }) => {
                     <p>{recipe}</p>
                     <p className="text-xl">Price: <span className="font-bold">${price}</span></p>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Add to cart</button>
+                        <button className="btn btn-outline text-yellow-400 border-b-4 border-0 bg-black hover:bg-yellow-400 hover:text-black">Add to cart</button>
                     </div>
                 </div>
             </div>

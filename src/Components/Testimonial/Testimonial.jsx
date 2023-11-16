@@ -10,7 +10,7 @@ import { BsChatSquareQuote } from "react-icons/bs";
 const Testimonial = () => {
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch('reviews.json')
+        fetch('http://localhost:5000/reviews')
             .then(res => res.json())
             .then(data => setReviews(data))
     }, [])
