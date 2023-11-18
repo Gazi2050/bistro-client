@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { FaGithub, FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from "../../Providers/AuthProvider";
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const captchaRef = useRef(null);
     const [disable, setDisable] = useState(true);
-
+    const { signIn } = useContext(AuthContext);
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
@@ -17,8 +18,13 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        const newUser = { email, password };
-        console.log(newUser)
+        const user = { email, password };
+        console.log(user)
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
     }
 
     const handleValidateCaptcha = () => {
@@ -27,7 +33,6 @@ const Login = () => {
         if (validateCaptcha(user_captcha_value) == true) {
             setDisable(false)
         }
-
         else {
             setDisable(true)
         }

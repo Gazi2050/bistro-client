@@ -1,8 +1,33 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { FaRegUser } from "react-icons/fa";
+import { LuMail } from "react-icons/lu";
+import { HiOutlineLockClosed } from "react-icons/hi";
+import { useForm } from "react-hook-form";
+
+
+
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
+    console.log(watch("example"));
+
+    // const handleSignUp = e => {
+    //     e.preventDefault();
+    //     const form = e.target;
+    //     const name = form.name.value;
+    //     const email = form.email.value;
+    //     const password = form.password.value;
+    //     const newUser = { name, email, password };
+    //     console.log(newUser)
+    // }
+
     return (
         <div className="flex flex-col-reverse lg:flex-row justify-around items-center lg:px-28">
 
@@ -16,12 +41,10 @@ const Signup = () => {
 
                     <p className="mt-1 text-center text-gray-500 dark:text-gray-400">It's quick and easy.</p>
 
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="relative flex items-center mt-5">
-                            <span className="absolute">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
+                            <span className="absolute m-5 text-gray-400 text-xl">
+                                <FaRegUser />
                             </span>
 
                             <input
@@ -30,27 +53,26 @@ const Signup = () => {
                                 className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username" />
                         </div>
                         <div className="relative flex items-center mt-4">
-                            <span className="absolute">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
+                            <span className="absolute m-5 text-gray-400 text-xl">
+                                <LuMail />
                             </span>
 
                             <input
+                                required
                                 name="email"
                                 type="email"
                                 className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
                         </div>
                         <div className="relative flex items-center mt-4">
-                            <span className="absolute">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
+                            <span className="absolute m-5 text-gray-400 text-xl">
+                                <HiOutlineLockClosed />
                             </span>
 
                             <input
+                                required
                                 name="password"
-                                type={showPassword ? 'text' : 'password'} className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
+                                type={showPassword ? 'text' : 'password'}
+                                className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
 
                         </div>
                         <div className="m-0.5" onClick={() => setShowPassword(!showPassword)}>
