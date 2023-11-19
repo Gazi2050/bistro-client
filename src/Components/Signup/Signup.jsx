@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 import { HiOutlineLockClosed } from "react-icons/hi";
@@ -12,15 +12,23 @@ import { AuthContext } from "../../Providers/AuthProvider";
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { register, handleSubmit, formState: { errors }, } = useForm();
-    const { createUser } = useContext(AuthContext);
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm();
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
     const onSubmit = (data) => {
         console.log(data);
         createUser(data.email, data.password)
             .then(result => {
                 const newUser = result.user;
                 console.log(newUser);
-                alert('user signUp successfully')
+                updateUserProfile(data.name)
+                    .then(() => {
+                        console.log('user profile updated')
+                        reset();
+                        alert('user signUp successfully')
+                        navigate('/');
+                    })
+                    .catch(error => console.log(error))
             })
     };
 
