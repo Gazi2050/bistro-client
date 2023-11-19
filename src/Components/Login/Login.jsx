@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaGithub, FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { useContext, useEffect, useRef, useState } from "react";
@@ -10,6 +10,11 @@ const Login = () => {
     const captchaRef = useRef(null);
     const [disable, setDisable] = useState(true);
     const { signIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
@@ -26,6 +31,7 @@ const Login = () => {
                 const user = result.user;
                 console.log(user);
                 alert('user login successfully')
+                navigate(from, { replace: true });
             })
     }
 
