@@ -26,6 +26,10 @@ export const router = createBrowserRouter([
                 path: '/order/:category',
                 element: <PrivateRoute><Order></Order></PrivateRoute>
             },
+            {
+                path: '/cart',
+                element: <PrivateRoute><></></PrivateRoute>
+            },
         ]
     },
     {

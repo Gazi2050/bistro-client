@@ -1,7 +1,30 @@
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 
 const FoodCard = ({ item }) => {
-    const { name, image, price, recipe } = item;
+    const { name, image, price, recipe, _id } = item;
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const handleAddToCart = food => {
+        console.log(food)
+        if (user && user.email) {
+            const cartItem = {
+                menuId: _id,
+                email: user.email,
+                name,
+                image,
+                price
+            }
+            axiosSecure.post('/carts', cartItem)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.insertedId) {
+                        alert(`${name} added to your cart`)
+                    }
+                })
+        }
+    }
     return (
         <div>
             <div className="card w-auto h-full bg-slate-300 shadow-xl">
@@ -11,7 +34,9 @@ const FoodCard = ({ item }) => {
                     <p>{recipe}</p>
                     <p className="text-xl">Price: <span className="font-bold">${price}</span></p>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-outline text-yellow-400 border-b-4 border-0 bg-black hover:bg-yellow-400 hover:text-black">Add to cart</button>
+                        <button
+                            onClick={() => handleAddToCart(item)}
+                            className="btn btn-outline text-yellow-400 border-b-4 border-0 bg-black hover:bg-yellow-400 hover:text-black">Add to cart</button>
                     </div>
                 </div>
             </div>
