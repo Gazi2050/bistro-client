@@ -23,7 +23,12 @@ const Navbar = () => {
         }
         <li><NavLink to='/contact'>Contact Us</NavLink></li>
         {user ?
-            <li><NavLink to='/cart'>
+            <li><NavLink to='/dashBoard'>DashBoard</NavLink></li>
+            :
+            null
+        }
+        {user ?
+            <li><NavLink to='/dashBoard/cart'>
                 <FaCartShopping className="text-2xl" />
                 <div className="badge badge-warning">{cart.length}</div>
             </NavLink></li>
