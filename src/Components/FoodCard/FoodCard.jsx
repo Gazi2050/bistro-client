@@ -1,13 +1,14 @@
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useCart from "../../Hooks/useCart";
 
 
 const FoodCard = ({ item }) => {
     const { name, image, price, recipe, _id } = item;
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const handleAddToCart = food => {
-        console.log(food)
+    const [, refetch] = useCart();
+    const handleAddToCart = () => {
         if (user && user.email) {
             const cartItem = {
                 menuId: _id,
@@ -21,6 +22,7 @@ const FoodCard = ({ item }) => {
                     console.log(res.data)
                     if (res.data.insertedId) {
                         alert(`${name} added to your cart`)
+                        refetch();
                     }
                 })
         }
@@ -35,7 +37,7 @@ const FoodCard = ({ item }) => {
                     <p className="text-xl">Price: <span className="font-bold">${price}</span></p>
                     <div className="card-actions justify-end">
                         <button
-                            onClick={() => handleAddToCart(item)}
+                            onClick={handleAddToCart}
                             className="btn btn-outline text-yellow-400 border-b-4 border-0 bg-black hover:bg-yellow-400 hover:text-black">Add to cart</button>
                     </div>
                 </div>
