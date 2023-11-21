@@ -6,7 +6,7 @@ import { IoBookmarks } from "react-icons/io5";
 const DashBoard = () => {
     return (
         <div className="flex">
-            <div className="w-64 min-h-full bg-orange-400">
+            <div className="w-64 min-h-screen bg-orange-400">
                 <ul className="menu space-y-1 text-xl">
                     <li><NavLink to='/dashBoard/home'><ImHome /> Home</NavLink></li>
                     <li><NavLink to='/dashBoard/cart'><FaCartShopping /> Cart</NavLink></li>
